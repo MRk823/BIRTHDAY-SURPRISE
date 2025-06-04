@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      height: 100%;
+      width: 100%;
+    }
+
+    #birthdayText {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2.5rem;
+      color: #fff;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+      padding: 0 15px;
+      word-wrap: break-word;
+    }
+
+    #birthdayMsg {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      max-width: 600px;
+      font-size: 1.2rem;
+      color: #fff;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+      line-height: 1.6;
+    }
+
+    #celebrateBtn {
+      display: none;
+      position: absolute;
+      top: 70%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 14px 30px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 30px;
+      background-color: #ff4081;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    #celebrateBtn:active {
+      transform: translateX(-50%) scale(0.96);
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/02/17/audio_7bb02df7a4.mp3?filename=romantic-background-117373.mp3" type="audio/mpeg" />
+</audio>
+
+<!-- Firework Sound -->
+<audio id="fwSound">
+  <source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_3a249b2e96.mp3?filename=firework-burst-6551.mp3" type="audio/mpeg" />
+</audio>
+
+<canvas id="birthdayCanvas"></canvas>
+<div id="birthdayText">🎂 Happy Birthday Kinza❤️</div>
+
+<!-- 🎉 Your special message -->
+<p id="birthdayMsg">
+  Aaj ka din khaas hai, lekin *Aap* usse bhi zyada khaas ho. <br/>
+  Aapki muskurahat sada salamat rahe, <br/>
+  Aur Aapka har sapna Aap ke kadmon mein ho. 💖
+</p>
+
+<button id="celebrateBtn" onclick="window.location.href='page 4.html'">Celebrate Our Day</button>
+
+<script>
+  const canvas = document.getElementById('birthdayCanvas');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  const bgMusic = document.getElementById('bgMusic');
+  document.body.addEventListener('click', () => {
+    bgMusic.play();
+  }, { once: true });
+
+  const particles = [];
+  const colors = ['#ff4081', '#ffeb3b', '#00bcd4', '#ff5722', '#8bc34a'];
+  const fwSound = document.getElementById('fwSound');
+
+  function createParticle(x, y, color) {
+    return {
+      x, y,
+      radius: Math.random() * 3 + 2,
+      color,
+      vx: (Math.random() - 0.5) * 8,
+      vy: (Math.random() - 0.5) * 8,
+      alpha: 1
+    };
+  }
+
+  function explode(x, y) {
+    for (let i = 0; i < 30; i++) {
+      particles.push(createParticle(x, y, colors[Math.floor(Math.random() * colors.length)]));
+    }
+    if (fwSound) {
+      fwSound.currentTime = 0;
+      fwSound.play();
+    }
+  }
+
+  function animate() {
+    ctx.fillStyle = 'rgba(0,0,0,0.15)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.alpha -= 0.01;
+
+      ctx.beginPath();
+      ctx.globalAlpha = p.alpha;
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+
+      if (p.alpha <= 0) particles.splice(i, 1);
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  setInterval(() => {
+    explode(Math.random() * canvas.width, Math.random() * canvas.height / 2);
+  }, 1000);
+
+  animate();
+
+  setTimeout(() => {
+    document.getElementById('birthdayText').style.opacity = 1;
+    document.getElementById('birthdayMsg').style.opacity = 1;
+    document.getElementById('celebrateBtn').style.display = 'block';
+  }, 3000);
+</script>
+
+</body>
+</html>

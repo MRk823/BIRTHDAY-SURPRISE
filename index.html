@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Something is Here for You</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #ff7eb3, #ff65a3);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      position: relative;
+    }
+
+    .birthday-stripes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: repeating-linear-gradient(45deg, #ff4081, #ff4081 10px, #ff7eb3 10px, #ff7eb3 20px);
+      animation: moveStripes 2s linear infinite;
+      z-index: 10;
+    }
+
+    @keyframes moveStripes {
+      0% {
+        background-position: 0 0;
+      }
+      100% {
+        background-position: 100% 100%;
+      }
+    }
+
+    .ceremony-ribbon {
+      background-color: #ff4081;
+      padding: 20px 30px;
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+      color: white;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      margin-top: 60px;
+      margin-bottom: 40px;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .ceremony-ribbon:before {
+      content: '🎉🎈';
+      font-size: 2rem;
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .ceremony-ribbon:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .bubble-box {
+      background-color: #ffffff;
+      padding: 20px 40px;
+      border-radius: 50px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      font-size: clamp(1rem, 4vw, 1.5rem);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-bottom: 40px;
+    }
+
+    .bubble-box:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .bubble-box .text {
+      font-weight: bold;
+      color: #333;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="birthday-stripes"></div>
+
+  <div class="ceremony-ribbon" onclick="playMusic()">
+    Something is here for you! 🎂
+  </div>
+
+  <div class="bubble-box" onclick="window.location.href='page 2.html'">
+    <span class="text">Click Here!</span>
+  </div>
+
+  <audio id="happyBirthdayMusic">
+    <source src="https://cdn.pixabay.com/download/audio/2021/06/01/audio_432db85c72.mp3?filename=happy-birthday-117083.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    function playMusic() {
+      const music = document.getElementById('happyBirthdayMusic');
+      music.play().catch(() => {
+        alert("Click to enable audio if blocked by browser!");
+      });
+    }
+  </script>
+
+</body>
+</html>

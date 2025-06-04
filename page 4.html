@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Crush 💖</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffd1e3, #ffb6d9);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      color: #ff4081;
+      font-size: 8vw;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 10px #fff;
+    }
+
+    h2 {
+      color: #d6336c;
+      font-size: 6vw;
+      margin-bottom: 2rem;
+    }
+
+    .cake {
+      width: 40vw;
+      max-width: 180px;
+      position: relative;
+      margin-bottom: 30px;
+      cursor: pointer;
+    }
+
+    .layer {
+      height: 40px;
+      border-radius: 10px;
+      margin: 5px auto;
+      transition: all 0.4s ease;
+    }
+
+    .layer1 {
+      width: 60%;
+      background: #ff6fa4;
+    }
+
+    .layer2 {
+      width: 75%;
+      background: #ff80b3;
+    }
+
+    .layer3 {
+      width: 90%;
+      background: #ff99c8;
+    }
+
+    .candles {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+
+    .candle {
+      width: 8px;
+      height: 20px;
+      background: white;
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .candle::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 2px;
+      width: 4px;
+      height: 8px;
+      background: gold;
+      border-radius: 50%;
+      animation: flicker 1s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 1; transform: scaleY(1); }
+      100% { opacity: 0.6; transform: scaleY(1.2); }
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #fff;
+      animation: fall 5s linear infinite;
+      border-radius: 2px;
+      z-index: 0;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    .msg {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      color: #c2185b;
+      font-weight: bold;
+      z-index: 1;
+    }
+
+    #loveMessage {
+      display: none;
+      font-size: 1.6rem;
+      margin-top: 30px;
+      color: #e91e63;
+      animation: pop 1s ease-out forwards;
+      z-index: 1;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Happy Birthday 💖</h1>
+  <h2>My Fvrt Kinza 🎉</h2>
+
+  <div class="cake" onclick="cutCake()">
+    <div class="candles">
+      <div class="candle"></div>
+      <div class="candle"></div>
+      <div class="candle"></div>
+      <div class="candle"></div>
+    </div>
+    <div class="layer layer1" id="l1"></div>
+    <div class="layer layer2" id="l2"></div>
+    <div class="layer layer3" id="l3"></div>
+  </div>
+
+  <div class="msg" id="cakeMsg">Click the cake to cut a slice 🍰</div>
+  <div id="loveMessage">I Like You... will you be mine? 💘</div>
+
+<button onclick="window.location.href='page 5.html'">One Last Surprise 💌</button>
+
+
+  <!-- Romantic music -->
+  <audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    let cuts = 0;
+
+    function cutCake() {
+      if (bgMusic.paused) {
+        bgMusic.play();
+      }
+
+      cuts++;
+      if (cuts === 1) {
+        document.getElementById("l1").style.opacity = 0;
+      } else if (cuts === 2) {
+        document.getElementById("l2").style.opacity = 0;
+      } else if (cuts === 3) {
+        document.getElementById("l3").style.opacity = 0;
+        document.getElementById("cakeMsg").style.display = "none";
+        document.getElementById("loveMessage").style.display = "block";
+      }
+    }
+
+    function createConfetti() {
+      for (let i = 0; i < 100; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.top = Math.random() * -200 + 'px';
+        c.style.backgroundColor = `hsl(${Math.random()*360}, 80%, 70%)`;
+        c.style.animationDelay = Math.random() * 5 + 's';
+        document.body.appendChild(c);
+      }
+    }
+    createConfetti();
+  </script>
+
+</body>
+</html>

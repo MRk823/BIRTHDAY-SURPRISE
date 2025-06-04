@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Countdown to Midnight</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .timer {
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: bold;
+      margin: 20px;
+      letter-spacing: 3px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+    }
+
+    .click-here {
+      font-size: clamp(1.2rem, 5vw, 1.8rem);
+      color: #ff4081;
+      margin-top: 30px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .click-here:hover {
+      text-decoration: underline;
+    }
+
+    .fireworks {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .footer {
+      font-size: 0.9rem;
+      color: #777;
+      position: absolute;
+      bottom: 10px;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="timer" id="timer">00:00:10</div>
+  <div class="click-here" id="clickHere" onclick="window.location.href='page 3.html'">Click here ></div>
+  <canvas id="fireworksCanvas" class="fireworks"></canvas>
+
+  <audio id="tickingSound" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2021/09/27/audio_4ab855c911.mp3?filename=clock-ticking-6402.mp3" type="audio/mpeg" />
+  </audio>
+
+  <audio id="fwSound">
+    <!-- You must use a valid online URL here. Local path won't work on mobile! -->
+    <source src="https://example.com/your-firework-sound.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    const timerElement = document.getElementById('timer');
+    const clickHere = document.getElementById('clickHere');
+    const tickingSound = document.getElementById('tickingSound');
+    const fwSound = document.getElementById('fwSound');
+    const fireworksCanvas = document.getElementById('fireworksCanvas');
+    const ctx = fireworksCanvas.getContext('2d');
+
+    function resizeCanvas() {
+      fireworksCanvas.width = window.innerWidth;
+      fireworksCanvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let countdown = 10;
+    let countdownInterval = setInterval(updateCountdown, 1000);
+
+    function updateCountdown() {
+      timerElement.textContent = `00:00:${countdown < 10 ? '0' + countdown : countdown}`;
+      if (countdown === 0) {
+        clearInterval(countdownInterval);
+        displayClickHere();
+        playFireworks();
+      }
+      countdown--;
+    }
+
+    function displayClickHere() {
+      clickHere.style.opacity = 1;
+      tickingSound.pause();
+    }
+
+    function playFireworks() {
+      fwSound.play();
+      createFireworks();
+    }
+
+    function createFireworks() {
+      const particles = [];
+      const colors = ['#ff4081', '#ffeb3b', '#00bcd4', '#ff5722', '#8bc34a'];
+
+      function createParticle(x, y, color) {
+        return {
+          x, y,
+          radius: Math.random() * 3 + 2,
+          color,
+          vx: (Math.random() - 0.5) * 8,
+          vy: (Math.random() - 0.5) * 8,
+          alpha: 1
+        };
+      }
+
+      function explode(x, y) {
+        for (let i = 0; i < 30; i++) {
+          particles.push(createParticle(x, y, colors[Math.floor(Math.random() * colors.length)]));
+        }
+      }
+
+      function animateFireworks() {
+        ctx.fillStyle = 'rgba(0,0,0,0.15)';
+        ctx.fillRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+
+        particles.forEach((p, i) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.alpha -= 0.01;
+
+          ctx.beginPath();
+          ctx.globalAlpha = p.alpha;
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+
+          if (p.alpha <= 0) particles.splice(i, 1);
+        });
+
+        requestAnimationFrame(animateFireworks);
+      }
+
+      explode(fireworksCanvas.width / 2, fireworksCanvas.height / 2);
+      animateFireworks();
+    }
+
+    // Auto-play ticking (might need user interaction on some browsers)
+    window.addEventListener("DOMContentLoaded", () => {
+      tickingSound.play().catch(e => {
+        console.warn("Auto-play blocked until user interacts");
+      });
+    });
+  </script>
+
+  <div class="footer">Design by WAJAHAT KHAN</div>
+</body>
+</html>
