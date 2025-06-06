@@ -166,44 +166,46 @@
 
 
   <!-- Romantic music -->
-  <audio id="hbSound" autoplay loop>
+  <!-- Romantic music -->
+<audio id="hbSound" autoplay loop>
   <source src="happy-birthday-254480.mp3" type="audio/mpeg" />
 </audio>
 
+<script>
+  let cuts = 0;
+  const bgMusic = document.getElementById("hbSound");  // Yeh line add karein
 
-  <script>
-    let cuts = 0;
-
-    function cutCake() {
-      if (bgMusic.paused) {
-        bgMusic.play();
-      }
-
-      cuts++;
-      if (cuts === 1) {
-        document.getElementById("l1").style.opacity = 0;
-      } else if (cuts === 2) {
-        document.getElementById("l2").style.opacity = 0;
-      } else if (cuts === 3) {
-        document.getElementById("l3").style.opacity = 0;
-        document.getElementById("cakeMsg").style.display = "none";
-        document.getElementById("loveMessage").style.display = "block";
-      }
+  function cutCake() {
+    if (bgMusic.paused) {
+      bgMusic.play();
     }
 
-    function createConfetti() {
-      for (let i = 0; i < 100; i++) {
-        const c = document.createElement('div');
-        c.className = 'confetti';
-        c.style.left = Math.random() * 100 + 'vw';
-        c.style.top = Math.random() * -200 + 'px';
-        c.style.backgroundColor = `hsl(${Math.random()*360}, 80%, 70%)`;
-        c.style.animationDelay = Math.random() * 5 + 's';
-        document.body.appendChild(c);
-      }
+    cuts++;
+    if (cuts === 1) {
+      document.getElementById("l1").style.opacity = 0;
+    } else if (cuts === 2) {
+      document.getElementById("l2").style.opacity = 0;
+    } else if (cuts === 3) {
+      document.getElementById("l3").style.opacity = 0;
+      document.getElementById("cakeMsg").style.display = "none";
+      document.getElementById("loveMessage").style.display = "block";
     }
-    createConfetti();
-  </script>
+  }
+
+  function createConfetti() {
+    for (let i = 0; i < 100; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.top = Math.random() * -200 + 'px';
+      c.style.backgroundColor = `hsl(${Math.random()*360}, 80%, 70%)`;
+      c.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(c);
+    }
+  }
+  createConfetti();
+</script>
+
 
 </body>
 </html>
